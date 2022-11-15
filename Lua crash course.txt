@@ -1,0 +1,67 @@
+Lua crash course:
+
+--this is a line comment
+
+--[[
+This is a block comment
+]]--
+
+
+--arrays / maps:
+--------
+local arr = {5,6,7}
+print( arr[1] ) -- 5 note the lua is 1 based
+local matrix = {{5},{6}}
+print( matrix[1][2] ) -- 6 note the lua is 1 based
+local dictionary = { bob = 1}
+print( dictionary["bob"] ) -- 1
+
+
+--classes:
+-------
+
+--instantiate the class
+local MyClass = require("MyClass")
+local params = {a = 1, b = 2}
+local instance = MyClass.new( params )
+--note the the "init" function will be called inside and receive passed params
+
+function MyClass:init(params)
+    self.a = params.a
+end
+
+
+--classes can extend parent classes
+local classes = require("classes")
+local Parent = require("Parent")
+local Child = classes.class(Parent)
+
+--note that classes have a : declaration. This notes that when calling the 
+--function, the first param passed in will be the caller instance. This will give 
+--you a reference to "self" from within the function.
+
+funciton MyClass:someFunc()
+
+end
+
+--from outside
+instance:someFunc()
+
+--from within another funciton
+self:someFunc()
+
+
+functions:
+-------
+--you can pass a funciton reference as a param to a funciton and call it from inside
+function MyClass:a()
+    print("i'm done")
+end
+
+function MyClass:b(fnc, callerInstance)
+    fnc(callerInstance)
+end
+
+instance:b(instance.a, instance) --"i'm done"
+
+
